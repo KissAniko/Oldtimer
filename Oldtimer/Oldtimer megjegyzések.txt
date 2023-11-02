@@ -1,0 +1,89 @@
+Ha lenne adott néven adatbáziusunk, ami régen készült és nem emlékszünk  mi van benne, akkor
+törölhetjük az egész adatbázist :  pl 'oldtimer' néven.
+
+drop database oldtimer;
+
+-----------------------------------------------------------------------------------------
+
+ Adatbázis létrehozása:
+
+
+          CREATE DATABASE oldtimer collate 'utf8_hungarian_ci';
+ vagy:    CREATE DATABASE oldtimer DEFAULT CHARACTER SET utf8 collate 'utf8_hungarian_ci';
+
+-------------------------------------------------------------------------------------------
+
+Ha táblát szeretnénk törölni valamiért: pl 'kategoriak' táblát..
+
+drop table kategoriak;  
+
+------------------------------------------------------------------------------------------ 
+
+Ha van kész beolvasnivaló oldalunk, amibe vannak az adatokon kívül táblák is, akkor érdemes 
+az egész oldalt kompletten bemásolni.
+
+Ha csak adatok vannak, akkor a táblákat is létre kell hozni. Ezután az adatfájl(oka)t
+importálhatjuk.
+
+Jelen feladat esetében minden benne van az "adatbazis.sql" fájlban.
+
+--------------------------------------------------------------------------------------
+
+
+Installáljuk a  MySql.Data -t ... de mást is lehet, ami által működik az Mysql beolvasás.
+
+---------------------------------------------------------------------------------------
+
+
+A törlés  nem fog addig működni, amíg az SQL-ben, az 'oldtimer.berlesek' táblában nincs beállítva a TRIGGER (tárolt eljárás) . 
+Ez azért kell, mert a bérlések táblából  is ki kell törölni az autót, nemcsak az autok táblából: 
+
+
+DELIMITER //
+CREATE TRIGGER torles BEFORE DELETE ON autok
+FOR EACH ROW
+BEGIN
+    DELETE FROM berlesek WHERE autoId=OLD.id;
+END;
+//
+DELIMITER ;
+
+
+Megjegyzés: Ha BEFOR ---> OLD.... ha AFTER ---> ..  Ez azt eredményezi, ha az autok táblából töröljük az autót, akkor 
+                                                    a bérlések táblából is törlődni fog. Viszont, ha a bérlések táblából 
+                                                    töröljük az autót, akkor az autok táblázatból nem fog törlődni az autó.
+                                                    Ezért nem mindegy, hogy BEFOR-t vagy AFTER-t használunk. 
+
+Beállítani az adott tábla 'Eseményindító' mezőjében is lehet, a ' create new trigger'-re kattintva.
+
+----------------------------------------------------------------------------------------------------------------
+
+
+1. kapcsolat kialakítása:  connection = new MySqlConnection(connectionString);
+2. kapcsolat megnyitása:   connection.Open();
+3. Szöveglekérdezés: "SELECT....."-tel;
+                      MySqlCommand lekerdez = new MySqlCommand(lekerdezesSzoveg, connection);
+
+4.Olvasó létrehozása:
+            try
+            {
+                  MySqlDataReader olvaso = lekerdez.ExecuteReader(); 
+                  
+5.Ha van kiolvasandó szöveg vagy érték, akkor : 
+                 if (olvaso.HasRows)
+                 {
+                      while (olvaso.Read())
+                     {
+                          kategoriaBevitel.Items.Add(olvaso.GetString(0));
+                     }                
+                 }
+            }
+
+6.Hibakezelés: 
+            catch  (Exception hiba)
+            {
+                 MessageBox.Show(hiba.Message);     
+            }
+
+
+7.Lezárjuk a kapcsoaltot :  connection.Close();

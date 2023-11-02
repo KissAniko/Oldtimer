@@ -1,0 +1,180 @@
+﻿<Window x:Class="Oldtimer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Oldtimer"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid RenderTransformOrigin="0.609,0.517" Margin="0,0,0,-2">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+
+        </Grid.ColumnDefinitions>
+
+        <TabControl x:Name="tabControl"
+                    Margin="0,20,12,122" 
+                    SelectionChanged="TabControl_SelectionChanged">
+            
+            <TabItem Header="Adatok listázása és törlése" 
+                     IsEnabled="False">
+                <Grid Background="#FFE5E5E5"
+                      Margin="9,0,-18,0" 
+                      Height="343">
+
+                    <DataGrid x:Name="adatokTablazat" 
+                  d:ItemsSource="{d:SampleData ItemCount=5}"                  
+                  Margin="-7,-7,234,181" 
+                  SelectionChanged="adatokTablazat_SelectionChanged"
+                  SelectionMode="Single"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  Loaded="adatokTablazat_Loaded_1" 
+                              Grid.ColumnSpan="2"  />
+                    <Button Content="Törlés" 
+                x:Name="Torles"
+                HorizontalAlignment="Left"
+                Margin="642,18,0,0"
+                Width="80"
+                VerticalAlignment="Top" 
+                Click="Torles_Click" 
+                RenderTransformOrigin="0.497,-2.582"
+                Height="20"/>
+
+                    <ComboBox HorizontalAlignment="Left"
+                  Margin="618,56,0,0" 
+                  VerticalAlignment="Top" 
+                  Width="120"
+                  x:Name="szinLista" 
+                  RenderTransformOrigin="-0.822,11.349"
+                  Height="22"/>
+                </Grid>
+            </TabItem>
+    
+            
+<!-- ....................másik tab..........................--> 
+            
+            
+            <TabItem x:Name="felvitelTab"
+                     Header="Adat felvitele" 
+                     Height="22" Margin="-2,-2,-2,0"
+                     VerticalAlignment="Top"                    
+                     >
+                
+                <Grid Background="#FFE5E5E5"
+                      Margin="6,0,11,0" 
+                      Height="229">
+
+                    <Label x:Name="rendszamCimke" 
+                           Content="Rendszám :"
+                        HorizontalAlignment="Left" 
+                        Margin="27,20,0,0" 
+                        VerticalAlignment="Top" 
+                        Width="72" 
+                        FontSize="14"/>
+                    <Label x:Name="szinCimke" Content="Szín :"
+                        HorizontalAlignment="Left" 
+                        Margin="27,50,0,0" 
+                        VerticalAlignment="Top" 
+                        Width="72" 
+                        FontSize="14"/>
+                    <Label x:Name="nevCimke" Content="Név :"
+                        HorizontalAlignment="Left" 
+                        Margin="27,80,0,0" 
+                        VerticalAlignment="Top" 
+                        Width="72" 
+                        FontSize="14"/>
+                    <Label x:Name="evjaratCimke" Content="Évjárat :"
+                        HorizontalAlignment="Left" 
+                        Margin="27,110,0,0" 
+                        VerticalAlignment="Top" 
+                        Width="72" 
+                        FontSize="14"/>
+                    <Label x:Name="arCimke" Content="Ár :"
+                        HorizontalAlignment="Left" 
+                        Margin="27,140,0,0" 
+                        VerticalAlignment="Top" 
+                        Width="72" 
+                        FontSize="14"/>
+                    <Label x:Name="kategoriaCimke" Content="Kategória :"
+                        HorizontalAlignment="Left" 
+                        Margin="27,170,0,0" 
+                        VerticalAlignment="Top" 
+                        Width="72" 
+                        FontSize="14"/>
+
+
+                    <TextBox x:Name="rendszamBevitel" HorizontalAlignment="Left" 
+                        Margin="110,25,0,0" 
+                        TextWrapping="Wrap" 
+                        VerticalAlignment="Top" 
+                        Width="120" 
+                        FontSize="14"/>
+                    <TextBox x:Name="szinBevitel" HorizontalAlignment="Left" 
+                        Margin="110,55,0,0" 
+                        TextWrapping="Wrap" 
+                        VerticalAlignment="Top" 
+                        Width="120" 
+                        FontSize="14"/>
+                    <TextBox x:Name="nevBevitel" HorizontalAlignment="Left" 
+                        Margin="110,85,0,0" 
+                        TextWrapping="Wrap" 
+                        VerticalAlignment="Top" 
+                        Width="120" 
+                        FontSize="14"/>
+                    <TextBox x:Name="evjaratBevitel" HorizontalAlignment="Left" 
+                        Margin="110,115,0,0" 
+                        TextWrapping="Wrap" 
+                        VerticalAlignment="Top" 
+                        Width="120" 
+                        FontSize="14"/>
+                    <TextBox x:Name="arBevitel" HorizontalAlignment="Left" 
+                        Margin="110,145,0,0" 
+                        TextWrapping="Wrap" 
+                        VerticalAlignment="Top" 
+                        Width="120" 
+                        FontSize="14"/>
+                    <ComboBox x:Name="kategoriaBevitel" HorizontalAlignment="Left" 
+                              Margin="110,175,0,0"                             
+                              VerticalAlignment="Top" 
+                              Width="120"/>
+                    <Button x:Name="bevitelGomb" 
+                            Content="Bevitel"
+                            HorizontalAlignment="Left" 
+                            Margin="414,46,0,0"
+                            VerticalAlignment="Top" 
+                            Height="26" 
+                            Width="102"/>
+
+                </Grid>
+            </TabItem>
+        </TabControl>
+        
+        <DataGrid HorizontalAlignment="Left"
+                  Height="1" Margin="-69,-8,0,0"
+                  VerticalAlignment="Top" 
+                  Width="12" 
+                  d:ItemsSource="{d:SampleData ItemCount=5}"/>
+
+
+        <!--  A DataGridet behúzom a TabControlba és 
+        'alt'-al rögzítem. Ugyanígy bármit bele
+        lehet vinni.. gombogat vagy egyéb eszközöket.
+        
+        A TabItems-nek lehet adni saját neveket, amikre 
+        ugyanúgy lehet hivatkozni eseménykezelésnél.
+        Változtatni a következőképp lehet:
+        katt az itme-re, jobb klikk és properties.. ezután 
+        a headerbe be lehet írni az új megnevezért vagy  a névhez 
+        az eseményrehivatkozást vagy  egyéb adatokat.
+        
+        Az újabb programoknál egyre gyakrabban használják a füleket
+        TabItems kezelésére, amiket a toolbox-menu-ben talunk meg.
+        -->
+
+
+
+
+    </Grid>
+</Window>
